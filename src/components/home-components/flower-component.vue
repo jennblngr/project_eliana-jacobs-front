@@ -236,18 +236,21 @@ function displayTooltip(event: Event): void {
 		return;
 	}
 
-	const eventTarget = event.target as HTMLDivElement;
+	const eventTarget = event.target as SVGElement;
 	const target: HTMLDivElement | null = document.querySelector(".flower__tooltip");
-	const clipPath = eventTarget.querySelector("clipPath use");
-
-	if (!clipPath || !target) {
+	
+	// Trouver le groupe parent avec la classe flower__petal
+	const petalGroup = eventTarget.closest(".flower__petal") as SVGGElement;
+	
+	if (!petalGroup || !target) {
 		return;
 	}
 
-	const boundedImage = clipPath.getBoundingClientRect();
+	// Utiliser getBoundingClientRect() sur le groupe parent qui a des dimensions réelles
+	const boundedImage = petalGroup.getBoundingClientRect();
 
 	target.style.display = "block";
-	target.innerHTML = eventTarget.id;
+	target.innerHTML = petalGroup.id;
 
 	const boundedTooltip = target.getBoundingClientRect();
 
